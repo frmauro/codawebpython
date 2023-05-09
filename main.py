@@ -6,13 +6,19 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    if request.method == "GET":
+        return render_template("home.html", result = "")
+
     if request.method == "POST":
-        url = request.form["url"]
         # assign URL
         #url_to_scrape = "https://www.estadao.com.br/"
-        url_to_scrape = url
+        url_to_scrape = request.form["url"]
+        url_to_scrape = url_to_scrape.strip()
+        if  url_to_scrape == '':
+            return render_template("home.html", result = "O campo URL é obrigatório")
 
         soupService = SoupService(url_to_scrape)
+    try:
         soup = SoupService.getSoupDocument(soupService)
         # print(soup.title)
         # print(soup.get_text())
@@ -34,9 +40,11 @@ def home():
             #print("foi encontrado a url com essa valor")
             res = CodaService.updateTitle(codaService)
             #print(f'Updated row {res["id"]}')
-        #print(request.form["url"])
-        return render_template("home.html", result = url)
-    return render_template("home.html", result = "")
+            #print(request.form["url"])
+        return render_template("home.html", result = url_to_scrape)
+    except:
+        return render_template("home.html", result = "URL INVÁLIDA!")
+
 
 if __name__ == "__main__":
     app.run()
