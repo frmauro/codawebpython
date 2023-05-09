@@ -40,10 +40,10 @@ class CodaService:
         return res
 
 
-    def update(self):
+    def update(self, rowid):
         headers = {'Authorization': 'Bearer 7a208aeb-ea98-414c-8e25-34d988f85892'}
-        uri = f'https://coda.io/apis/v1/docs/pOe5ixBASv/tables/grid-wWfa52dKst/rows/i-zUab2yBZcx/'
-
+        uri = f'https://coda.io/apis/v1/docs/pOe5ixBASv/tables/grid-wWfa52dKst/rows/{rowid}/'
+        print("TEXTO: " + self.text)
         payload = {
         'row': {
             'cells': [

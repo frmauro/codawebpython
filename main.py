@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
+    messageResult = ""
     if request.method == "GET":
         return render_template("home.html", result = "")
 
@@ -16,7 +17,8 @@ def home():
         url_to_scrape = request.form["url"]
         url_to_scrape = url_to_scrape.strip()
         if  url_to_scrape == '':
-            return render_template("home.html", result = "O campo URL é obrigatório")
+            messageResult = "O campo URL é obrigatório"
+            return render_template("home.html", result = messageResult)
 
         soupService = SoupService(url_to_scrape)
     try:
@@ -30,27 +32,33 @@ def home():
         #print(resColumn['items'])
 
         jsonResponse = json.dumps(resColumn['items'])
-        print(jsonResponse)
-        #print(jsonResponse[{"id"}])
+        #print(jsonResponse)
+        data = json.loads('{"id":"i-l-7VewkOnH"}')
+        rowid = data['id'] 
+        # print(data)
+        # print(data['id'])
 
         #print(len(resColumn["items"]))
 
         itemsLenght = len(resColumn["items"])
 
         if itemsLenght == 0:
-            print("Não foi encontrado nenhuma url com essa valor")
-            #res = CodaService.createRow(codaService)
-            print(f'Inserted 1 row')
+            #print("Não foi encontrado nenhuma url com essa valor")
+            res = CodaService.createRow(codaService)
+            messageResult = "Inserção realizado com sucesso!"
+            #print(f'Inserted 1 row')
 
 
         if itemsLenght > 0:
-            print("foi encontrado a url com essa valor")
-            #res = CodaService.update(codaService)
+            #print("foi encontrado a url com essa valor")
+            res = CodaService.update(codaService, rowid)
+            messageResult = "Atualização realizado com sucesso!"
             #print(f'Updated row {res["id"]}')
             #print(request.form["url"])
-        return render_template("home.html", result = url_to_scrape)
+        return render_template("home.html", result = messageResult)
     except:
-        return render_template("home.html", result = "URL INVÁLIDA!")
+        messageResult = "Ocorreu algum erro na requisição!"
+        return render_template("home.html", result = messageResult)
 
 
 if __name__ == "__main__":
