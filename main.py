@@ -1,6 +1,7 @@
 from beautifulSoupService import SoupService
 from codaService import CodaService
 from flask import *
+import json
 
 app = Flask(__name__)
 
@@ -25,8 +26,13 @@ def home():
 
         codaService = CodaService(url_to_scrape, soup.title, soup.get_text())
         resColumn = CodaService.getColumnValue(url_to_scrape)
-        print(resColumn)
-        print(resColumn["items"]["id"])
+        #print(resColumn)
+        #print(resColumn['items'])
+
+        jsonResponse = json.dumps(resColumn['items'])
+        print(jsonResponse)
+        #print(jsonResponse[{"id"}])
+
         #print(len(resColumn["items"]))
 
         itemsLenght = len(resColumn["items"])
