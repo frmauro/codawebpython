@@ -3,9 +3,10 @@ import requests
 
 class CodaService:
      # init method or constructor
-    def __init__(self, url, title):
+    def __init__(self, url, title, text):
         self.url = url
         self.title = title
+        self.text = text
 
     def getColumnValue(columnValue):    
         headers = {'Authorization': 'Bearer 7a208aeb-ea98-414c-8e25-34d988f85892'}
@@ -39,7 +40,7 @@ class CodaService:
         return res
 
 
-    def updateTitle(self):
+    def update(self):
         headers = {'Authorization': 'Bearer 7a208aeb-ea98-414c-8e25-34d988f85892'}
         uri = f'https://coda.io/apis/v1/docs/pOe5ixBASv/tables/grid-wWfa52dKst/rows/i-zUab2yBZcx/'
 
@@ -47,6 +48,7 @@ class CodaService:
         'row': {
             'cells': [
             {'column': 'c-swYTqmkWLE', 'value': f'{self.title}'},
+            {'column': 'c-aHFCRMWW3E', 'value': f'{self.text}'},
             ],
         },
         }
