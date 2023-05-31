@@ -31,15 +31,12 @@ def home():
         #print(resColumn)
         #print(resColumn['items'])
 
-        jsonResponse = json.dumps(resColumn['items'])
+        jsonResponse = json.dumps(resColumn['items'][0]["id"])
         #print(jsonResponse)
-        data = json.loads('{"id":"i-l-7VewkOnH"}')
-        rowid = data['id'] 
-        # print(data)
-        # print(data['id'])
+        rowid = jsonResponse
+        # print(rowid)
 
         #print(len(resColumn["items"]))
-
         itemsLenght = len(resColumn["items"])
 
         if itemsLenght == 0:
